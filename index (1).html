@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ECOSYS — El Sistema Integral del Coach</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/style.css"/>
+</head>
+<body>
+
+<!-- ═══════════════════ LANDING PÚBLICA ═══════════════════ -->
+<div id="landing-page">
+
+  <nav class="navbar">
+    <img src="/logo-nav.png" width="146" height="36" alt="ECOSYS"/>
+    <div class="nav-links">
+      <a href="#funciones">Funciones</a>
+      <a href="#herramientas">Herramientas</a>
+      <a href="#precios">Precios</a>
+    </div>
+    <div class="nav-cta">
+      <button class="btn-ghost" onclick="openAuth('login')">Iniciar sesión</button>
+      <button class="btn-primary" onclick="openAuth('register')">Empezar gratis</button>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-badge">✦ El sistema que los mejores coaches necesitan</div>
+    <h1>Tu práctica de coaching,<br><em>completamente viva</em></h1>
+    <p>Clientes, sesiones, herramientas, programas y un asistente de IA real — todo en un solo lugar, diseñado para coaches que van en serio.</p>
+    <div class="hero-btns">
+      <button class="btn-hero solid" onclick="openAuth('register')">Empieza gratis — sin tarjeta</button>
+      <button class="btn-hero outline" onclick="document.getElementById('precios').scrollIntoView({behavior:'smooth'})">Ver planes →</button>
+    </div>
+    <div class="stats-row">
+      <div class="stat-item"><div class="stat-num">60</div><div class="stat-label">Herramientas de coaching</div></div>
+      <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label">En español</div></div>
+      <div class="stat-item"><div class="stat-num">$0</div><div class="stat-label">Para empezar</div></div>
+    </div>
+  </section>
+
+  <section class="section-pad" id="funciones">
+    <div class="section-title">Todo lo que tu práctica necesita</div>
+    <div class="section-sub">Sin módulos decorativos. Cada función está conectada y funciona de verdad.</div>
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-icon" style="margin-bottom:14px;">🤖</div>
+        <div style="font-weight:700;color:var(--night);margin-bottom:6px;">IA Asistente Real</div>
+        <div style="font-size:13px;color:var(--text-2);line-height:1.6;">Chat, generador de contenido y análisis de herramientas con IA de verdad — no respuestas prearmadas.</div>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="margin-bottom:14px;">👥</div>
+        <div style="font-weight:700;color:var(--night);margin-bottom:6px;">CRM Funcional</div>
+        <div style="font-size:13px;color:var(--text-2);line-height:1.6;">Tus clientes, sus etapas y su historial — guardado de verdad, no datos de ejemplo.</div>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="margin-bottom:14px;">🧰</div>
+        <div style="font-weight:700;color:var(--night);margin-bottom:6px;">60 Herramientas Reales</div>
+        <div style="font-size:13px;color:var(--text-2);line-height:1.6;">Cada una con formulario, lógica propia y análisis de IA — no íconos decorativos.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PRICING ═══ -->
+  <section class="section-pad" id="precios" style="background:var(--cream);">
+    <div class="section-title">Elige tu plan</div>
+    <div class="section-sub">Empieza gratis. Escala cuando estés listo. Sin permanencia.</div>
+    <div class="plans-grid">
+
+      <div class="plan-card">
+        <div class="plan-icon">🌱</div>
+        <div class="plan-name">Starter</div>
+        <div class="plan-price">$0<span></span></div>
+        <div class="plan-period">Gratis para siempre</div>
+        <div class="plan-divider"></div>
+        <div class="plan-feature"><span class="check">✓</span> Hasta 3 clientes activos</div>
+        <div class="plan-feature"><span class="check">✓</span> 10 herramientas de coaching</div>
+        <div class="plan-feature"><span class="check">✓</span> Agenda de sesiones</div>
+        <div class="plan-feature"><span class="check">✓</span> IA Asistente (uso limitado)</div>
+        <div class="plan-feature"><span class="cross">✗</span> <span class="locked-text">Programas y cursos</span></div>
+        <div class="plan-feature"><span class="cross">✗</span> <span class="locked-text">Pagos integrados</span></div>
+        <button class="plan-btn starter" onclick="openAuth('register','starter')">Crear cuenta gratis</button>
+      </div>
+
+      <div class="plan-card featured">
+        <div class="plan-badge">MÁS POPULAR</div>
+        <div class="plan-icon">🚀</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price">$47<span>/mes</span></div>
+        <div class="plan-period">Cancela cuando quieras</div>
+        <div class="plan-divider"></div>
+        <div class="plan-feature"><span class="check">✓</span> Clientes ilimitados</div>
+        <div class="plan-feature"><span class="check">✓</span> Las 60 herramientas + IA</div>
+        <div class="plan-feature"><span class="check">✓</span> Programas y cursos ilimitados</div>
+        <div class="plan-feature"><span class="check">✓</span> Pagos (Wompi / MercadoPago)</div>
+        <div class="plan-feature"><span class="check">✓</span> IA Asistente ilimitada</div>
+        <button class="plan-btn pro" onclick="openAuth('register','pro')">Empezar Pro</button>
+      </div>
+
+      <div class="plan-card">
+        <div class="plan-icon">👑</div>
+        <div class="plan-name">Elite</div>
+        <div class="plan-price">$97<span>/mes</span></div>
+        <div class="plan-period">Cancela cuando quieras</div>
+        <div class="plan-divider"></div>
+        <div class="plan-feature"><span class="check">✓</span> Todo lo de Pro</div>
+        <div class="plan-feature"><span class="check">✓</span> White-label completo</div>
+        <div class="plan-feature"><span class="check">✓</span> Dominio personalizado</div>
+        <div class="plan-feature"><span class="check">✓</span> Soporte prioritario</div>
+        <button class="plan-btn elite" onclick="openAuth('register','elite')">Empezar Elite</button>
+      </div>
+
+    </div>
+  </section>
+
+  <section style="padding:60px 5%;text-align:center;">
+    <div style="font-size:12px;color:var(--text-3);">ECOSYS — El Sistema Integral del Coach · © 2026</div>
+  </section>
+
+</div>
+
+<!-- ═══════════════════ AUTH MODAL ═══════════════════ -->
+<div class="auth-overlay" id="auth-overlay">
+  <div class="auth-box">
+    <div class="auth-logo"><img src="/logo-nav.png" width="120" height="30" alt="ECOSYS"/></div>
+
+    <!-- LOGIN -->
+    <div id="auth-login">
+      <div class="auth-title">Inicia sesión</div>
+      <div class="auth-sub">Bienvenido de vuelta a tu ecosistema</div>
+      <div class="form-error" id="login-error"></div>
+      <div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" id="login-email" placeholder="tu@email.com"/></div>
+      <div class="form-group"><label class="form-label">Contraseña</label><input class="form-input" type="password" id="login-pass" placeholder="••••••••"/></div>
+      <button class="btn-hero solid" style="width:100%;" onclick="doLogin()" id="login-btn">Entrar al sistema →</button>
+      <div class="auth-switch">¿No tienes cuenta? <a onclick="switchAuth('register')">Regístrate gratis</a></div>
+    </div>
+
+    <!-- REGISTER -->
+    <div id="auth-register" style="display:none;">
+      <div class="auth-title">Crea tu cuenta</div>
+      <div class="auth-sub">Empieza gratis — actualiza cuando quieras</div>
+      <div class="form-error" id="register-error"></div>
+
+      <div class="form-group">
+        <label class="form-label">Elige tu plan</label>
+        <div class="plan-select-row">
+          <div class="plan-mini selected" data-plan="starter" onclick="selectPlan('starter')">
+            <div class="plan-mini-name">Starter</div><div class="plan-mini-price">Gratis</div>
+          </div>
+          <div class="plan-mini" data-plan="pro" onclick="selectPlan('pro')">
+            <div class="plan-mini-name">Pro</div><div class="plan-mini-price">$47/mes</div>
+          </div>
+          <div class="plan-mini" data-plan="elite" onclick="selectPlan('elite')">
+            <div class="plan-mini-name">Elite</div><div class="plan-mini-price">$97/mes</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group"><label class="form-label">Nombre completo</label><input class="form-input" type="text" id="register-name" placeholder="Tu nombre"/></div>
+      <div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" id="register-email" placeholder="tu@email.com"/></div>
+      <div class="form-group"><label class="form-label">Contraseña</label><input class="form-input" type="password" id="register-pass" placeholder="Mínimo 8 caracteres"/></div>
+      <button class="btn-hero solid" style="width:100%;" onclick="doRegister()" id="register-btn">Crear cuenta →</button>
+      <div class="auth-switch">¿Ya tienes cuenta? <a onclick="switchAuth('login')">Inicia sesión</a></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════ APP SHELL ═══════════════════ -->
+<div id="app-shell" style="display:none;">
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <img src="/logo-sidebar.png" width="114" height="28" alt="ECOSYS"/>
+    <div class="tagline">Sistema Integral del Coach</div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Principal</div>
+    <div class="nav-item active" onclick="goTo('dashboard',this)"><span class="icon">⚡</span> Dashboard</div>
+    <div class="nav-item" onclick="goTo('ia-coach',this)"><span class="icon">🤖</span> IA Asistente</div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Tu Camino</div>
+    <div class="nav-path">
+      <div class="nav-path-title">SER → RECIBIR</div>
+      <div class="path-step" data-stage="SER"><div class="path-dot"></div> SER — Identidad</div>
+      <div class="path-line"></div>
+      <div class="path-step" data-stage="HACER"><div class="path-dot"></div> HACER — Método</div>
+      <div class="path-line"></div>
+      <div class="path-step" data-stage="TENER"><div class="path-dot"></div> TENER — Negocio</div>
+      <div class="path-line"></div>
+      <div class="path-step" data-stage="DAR"><div class="path-dot"></div> DAR — Impacto</div>
+      <div class="path-line"></div>
+      <div class="path-step" data-stage="RECIBIR"><div class="path-dot"></div> RECIBIR — Abundancia</div>
+    </div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Operación</div>
+    <div class="nav-item" onclick="goTo('clientes',this)"><span class="icon">👥</span> Clientes & CRM</div>
+    <div class="nav-item" onclick="goTo('sesiones',this)"><span class="icon">📅</span> Sesiones</div>
+    <div class="nav-item" onclick="goTo('programas',this)"><span class="icon">📚</span> Programas <span class="lock" id="lock-programas"></span></div>
+    <div class="nav-item" onclick="goTo('herramientas',this)"><span class="icon">🧰</span> Herramientas <span class="badge" id="tools-badge">60</span></div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Crecimiento</div>
+    <div class="nav-item" onclick="goTo('analytics',this)"><span class="icon">📊</span> Analytics</div>
+    <div class="nav-item" onclick="goTo('plan',this)"><span class="icon">💳</span> Mi Plan</div>
+  </div>
+
+  <div class="sidebar-bottom">
+    <div class="user-pill">
+      <div class="user-avatar" id="user-avatar">--</div>
+      <div><div class="user-name" id="user-name-el">—</div><div class="user-role" id="user-plan-el">—</div></div>
+    </div>
+    <div class="logout-btn" onclick="doLogout()">Cerrar sesión</div>
+  </div>
+</nav>
+
+<div class="main">
+  <div class="topbar">
+    <span id="page-title-el" class="page-title">Dashboard</span>
+    <div class="topbar-right">
+      <button class="top-btn primary" onclick="openModal('new-client-modal')">+ Nuevo cliente</button>
+    </div>
+  </div>
+
+  <div class="content" id="app-content">
+    <!-- Las screens se inyectan aquí vía JS -->
+  </div>
+</div>
+</div>
+
+<div class="modal-overlay" id="tool-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="tool-modal-title">Herramienta</div>
+      <button class="modal-close" onclick="closeModal('tool-modal')">✕</button>
+    </div>
+    <div id="tool-modal-body"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="new-client-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Nuevo Cliente</div>
+      <button class="modal-close" onclick="closeModal('new-client-modal')">✕</button>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Nombre completo</label><input class="form-input" id="nc-name" placeholder="Ana García"/></div>
+      <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="nc-email" placeholder="ana@email.com"/></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Teléfono / WhatsApp</label><input class="form-input" id="nc-phone" placeholder="+57 300..."/></div>
+      <div class="form-group"><label class="form-label">Etapa inicial</label>
+        <select class="form-select" id="nc-stage">
+          <option value="SER">SER — Identidad</option>
+          <option value="HACER">HACER — Metodología</option>
+          <option value="TENER">TENER — Negocio</option>
+          <option value="DAR">DAR — Impacto</option>
+          <option value="RECIBIR">RECIBIR — Abundancia</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group"><label class="form-label">Programa (opcional)</label><input class="form-input" id="nc-program" placeholder="ej: Fundamentos del SER"/></div>
+    <div class="form-group"><label class="form-label">Notas iniciales</label><textarea class="form-textarea" id="nc-notes" placeholder="¿Qué trajo a este cliente? ¿Qué quiere lograr?"></textarea></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;">
+      <button class="top-btn ghost" onclick="closeModal('new-client-modal')">Cancelar</button>
+      <button class="top-btn primary" onclick="saveClient()">Crear cliente</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="new-session-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Nueva Sesión</div>
+      <button class="modal-close" onclick="closeModal('new-session-modal')">✕</button>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Cliente</label><select class="form-select" id="ns-client"></select></div>
+      <div class="form-group"><label class="form-label">Tipo</label>
+        <select class="form-select" id="ns-type"><option>Individual 1:1</option><option>Grupal</option><option>Check-in rápido</option></select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Fecha</label><input class="form-input" type="date" id="ns-date"/></div>
+      <div class="form-group"><label class="form-label">Hora</label><input class="form-input" type="time" id="ns-time" value="09:00"/></div>
+    </div>
+    <div class="form-group"><label class="form-label">Objetivo de la sesión</label><input class="form-input" id="ns-goal" placeholder="¿Qué quieres lograr en esta sesión?"/></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;">
+      <button class="top-btn ghost" onclick="closeModal('new-session-modal')">Cancelar</button>
+      <button class="top-btn primary" onclick="saveSession()">Agendar sesión</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="new-program-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Nuevo Programa</div>
+      <button class="modal-close" onclick="closeModal('new-program-modal')">✕</button>
+    </div>
+    <div class="form-group"><label class="form-label">Nombre del programa</label><input class="form-input" id="np-name" placeholder="ej: Liderazgo con Propósito"/></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Duración</label><input class="form-input" id="np-duration" placeholder="3 meses / 12 sesiones"/></div>
+      <div class="form-group"><label class="form-label">Precio (USD)</label><input class="form-input" type="number" id="np-price" placeholder="2400"/></div>
+    </div>
+    <div class="form-group"><label class="form-label">Descripción</label><textarea class="form-textarea" id="np-desc" placeholder="¿Qué transforma este programa?"></textarea></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;">
+      <button class="top-btn ghost" onclick="closeModal('new-program-modal')">Cancelar</button>
+      <button class="top-btn primary" onclick="saveProgram()">Crear programa</button>
+    </div>
+  </div>
+</div>
+
+<div class="notif-toast" id="toast" style="display:none;">
+  <span id="toast-icon">✓</span>
+  <span id="toast-msg">Acción completada</span>
+</div>
+
+<script src="/app.js"></script>
+</body>
+</html>
