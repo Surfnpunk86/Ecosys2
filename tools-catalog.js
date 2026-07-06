@@ -1,224 +1,1146 @@
-/**
- * ECOSYS — Catálogo de 60 herramientas de coaching
- * Cada herramienta tiene: id, nombre, categoría, ícono, descripción,
- * tipo de input (form fields) y el prompt que se envía a la IA para el análisis.
- */
-
+// Catálogo de las 60 herramientas de coaching de ECOSYS
+// Generado con 12 herramientas por cada etapa: SER, HACER, TENER, DAR, RECIBIR
 const TOOLS = [
-  // ══ SER — IDENTIDAD (12 herramientas) ══
-  { id:'rueda-vida', cat:'SER', icon:'☯️', name:'Rueda de la Vida', desc:'Evalúa el equilibrio en las 8 áreas clave de vida.',
-    fields:[
-      {k:'salud',label:'Salud',type:'range'},{k:'relaciones',label:'Relaciones',type:'range'},
-      {k:'carrera',label:'Carrera',type:'range'},{k:'finanzas',label:'Finanzas',type:'range'},
-      {k:'diversion',label:'Diversión',type:'range'},{k:'crecimiento',label:'Crecimiento personal',type:'range'},
-      {k:'entorno',label:'Entorno físico',type:'range'},{k:'proposito',label:'Propósito',type:'range'}
-    ]},
-  { id:'valores-nucleares', cat:'SER', icon:'💎', name:'Valores Nucleares', desc:'Descubre y ordena los valores esenciales.',
-    fields:[{k:'top5',label:'5 valores más importantes (separados por coma)',type:'text'},
-            {k:'conflicto',label:'¿Dónde sientes que vives en conflicto con tus valores?',type:'textarea'}]},
-  { id:'proposito-ikigai', cat:'SER', icon:'🎯', name:'Propósito de Vida (Ikigai)', desc:'Misión, vocación, pasión y profesión.',
-    fields:[{k:'amas',label:'¿Qué amas hacer?',type:'textarea'},{k:'bueno',label:'¿En qué eres bueno?',type:'textarea'},
-            {k:'necesita',label:'¿Qué necesita el mundo de ti?',type:'textarea'},{k:'pagan',label:'¿Por qué te pueden pagar?',type:'textarea'}]},
-  { id:'linea-tiempo', cat:'SER', icon:'🕒', name:'Línea del Tiempo', desc:'Mapea hitos, aprendizajes y momentos de quiebre.',
-    fields:[{k:'hitos',label:'Hitos principales de tu vida (uno por línea)',type:'textarea'},
-            {k:'quiebres',label:'Momentos de quiebre o transformación',type:'textarea'}]},
-  { id:'fortalezas-via', cat:'SER', icon:'💪', name:'Inventario de Fortalezas', desc:'24 fortalezas de carácter (VIA).',
-    fields:[{k:'top3',label:'3 fortalezas que más te definen',type:'text'},
-            {k:'ejemplo',label:'Da un ejemplo reciente de cada una',type:'textarea'}]},
-  { id:'creencias-limitantes', cat:'SER', icon:'🔓', name:'Detector de Creencias Limitantes', desc:'Identifica patrones mentales que bloquean.',
-    fields:[{k:'creencia',label:'Escribe una creencia que sientes que te limita',type:'textarea'},
-            {k:'origen',label:'¿De dónde crees que viene?',type:'textarea'}]},
-  { id:'rueda-emocional', cat:'SER', icon:'🎭', name:'Rueda de Emociones', desc:'Mapea el estado emocional actual con precisión.',
-    fields:[{k:'emocion',label:'Emoción dominante esta semana',type:'text'},
-            {k:'intensidad',label:'Intensidad (1-10)',type:'range'},
-            {k:'disparador',label:'¿Qué la disparó?',type:'textarea'}]},
-  { id:'identidad-futura', cat:'SER', icon:'🌅', name:'Identidad Futura', desc:'Visualiza quién quieres ser en 5 años.',
-    fields:[{k:'descripcion',label:'Descríbete en 5 años — quién eres, qué haces',type:'textarea'},
-            {k:'brecha',label:'¿Qué te separa de esa persona hoy?',type:'textarea'}]},
-  { id:'mascara-vs-esencia', cat:'SER', icon:'🎪', name:'Máscara vs. Esencia', desc:'Diferencia el yo social del yo auténtico.',
-    fields:[{k:'mascara',label:'¿Cómo te muestras ante los demás?',type:'textarea'},
-            {k:'esencia',label:'¿Quién eres cuando nadie te ve?',type:'textarea'}]},
-  { id:'legado', cat:'SER', icon:'🌳', name:'Mapa de Legado', desc:'Qué huella quieres dejar.',
-    fields:[{k:'huella',label:'¿Qué quieres que digan de ti cuando ya no estés?',type:'textarea'}]},
-  { id:'autobiografia-express', cat:'SER', icon:'📖', name:'Autobiografía Express', desc:'Tu historia en 10 minutos, sin filtro.',
-    fields:[{k:'historia',label:'Cuenta tu historia en 300 palabras',type:'textarea'}]},
-  { id:'perfil-disc', cat:'SER', icon:'🧬', name:'Perfil DISC', desc:'Estilo de comportamiento y comunicación.',
-    fields:[{k:'d',label:'Dominancia — ¿tomas decisiones rápido y directo?',type:'range'},
-            {k:'i',label:'Influencia — ¿te energiza socializar?',type:'range'},
-            {k:'s',label:'Estabilidad — ¿prefieres rutina y calma?',type:'range'},
-            {k:'c',label:'Cumplimiento — ¿te importa la precisión y las reglas?',type:'range'}]},
-
-  // ══ HACER — METODOLOGÍA (12 herramientas) ══
-  { id:'grow', cat:'HACER', icon:'🌱', name:'Modelo GROW', desc:'Meta, Realidad, Opciones, Voluntad.',
-    fields:[{k:'goal',label:'G — Meta específica de esta sesión',type:'textarea'},
-            {k:'reality',label:'R — Situación actual real',type:'textarea'},
-            {k:'options',label:'O — Opciones y recursos disponibles',type:'textarea'},
-            {k:'will',label:'W — Qué vas a hacer, cuándo y cómo',type:'textarea'}]},
-  { id:'plan-90-dias', cat:'HACER', icon:'📋', name:'Plan de 90 Días', desc:'Desglosa metas grandes en sprints ejecutables.',
-    fields:[{k:'meta',label:'Meta grande a 90 días',type:'text'},
-            {k:'mes1',label:'Qué logras en el mes 1',type:'textarea'},
-            {k:'mes2',label:'Qué logras en el mes 2',type:'textarea'},
-            {k:'mes3',label:'Qué logras en el mes 3',type:'textarea'}]},
-  { id:'habitos-atomicos', cat:'HACER', icon:'⚛️', name:'Diseño de Hábitos', desc:'Construye o rompe un hábito con método.',
-    fields:[{k:'habito',label:'Hábito que quieres construir/romper',type:'text'},
-            {k:'gatillo',label:'¿Cuál será el gatillo/disparador?',type:'text'},
-            {k:'recompensa',label:'¿Cuál será la recompensa?',type:'text'}]},
-  { id:'matriz-eisenhower', cat:'HACER', icon:'🗂️', name:'Matriz de Prioridades', desc:'Urgente/Importante — enfoca la acción.',
-    fields:[{k:'urgente_importante',label:'Urgente + Importante',type:'textarea'},
-            {k:'no_urgente_importante',label:'No urgente + Importante',type:'textarea'},
-            {k:'urgente_no_importante',label:'Urgente + No importante',type:'textarea'}]},
-  { id:'rueda-decisiones', cat:'HACER', icon:'⚖️', name:'Marco de Decisión', desc:'Toma decisiones difíciles con estructura.',
-    fields:[{k:'decision',label:'¿Qué decisión estás enfrentando?',type:'text'},
-            {k:'pros',label:'Pros de cada opción',type:'textarea'},
-            {k:'contras',label:'Contras de cada opción',type:'textarea'},
-            {k:'miedo',label:'¿Qué miedo hay detrás de no decidir?',type:'textarea'}]},
-  { id:'protocolo-sesion', cat:'HACER', icon:'📐', name:'Protocolo de Sesión Estándar', desc:'Estructura repetible para cualquier sesión.',
-    fields:[{k:'checkin',label:'Check-in — ¿cómo llega el cliente hoy?',type:'textarea'},
-            {k:'foco',label:'Foco de la sesión de hoy',type:'text'},
-            {k:'compromiso',label:'Compromiso de cierre',type:'textarea'}]},
-  { id:'rueda-productividad', cat:'HACER', icon:'⏱️', name:'Auditoría de Tiempo', desc:'A dónde se va realmente tu tiempo.',
-    fields:[{k:'actividades',label:'Lista tus actividades de una semana típica con horas',type:'textarea'},
-            {k:'fugas',label:'¿Dónde crees que se te va el tiempo sin darte cuenta?',type:'textarea'}]},
-  { id:'zona-genio', cat:'HACER', icon:'✨', name:'Zona de Genio', desc:'Delegar, eliminar o potenciar tareas.',
-    fields:[{k:'genio',label:'Tareas donde estás en tu Zona de Genio',type:'textarea'},
-            {k:'delegar',label:'Tareas que deberías delegar o eliminar',type:'textarea'}]},
-  { id:'plan-accion-semanal', cat:'HACER', icon:'📅', name:'Plan de Acción Semanal', desc:'Convierte metas en acciones de 7 días.',
-    fields:[{k:'meta_semana',label:'Meta de esta semana',type:'text'},
-            {k:'acciones',label:'3-5 acciones concretas',type:'textarea'}]},
-  { id:'mapa-obstaculos', cat:'HACER', icon:'🚧', name:'Mapa de Obstáculos', desc:'Anticipa y planea ante lo que puede fallar.',
-    fields:[{k:'obstaculo',label:'Principal obstáculo previsible',type:'textarea'},
-            {k:'plan_b',label:'Plan B si aparece',type:'textarea'}]},
-  { id:'revision-semanal', cat:'HACER', icon:'🔄', name:'Revisión Semanal', desc:'Ritual de cierre y ajuste de rumbo.',
-    fields:[{k:'logros',label:'Logros de la semana',type:'textarea'},
-            {k:'aprendizajes',label:'Aprendizajes clave',type:'textarea'},
-            {k:'ajuste',label:'Qué ajustar la próxima semana',type:'textarea'}]},
-  { id:'okr-personal', cat:'HACER', icon:'📐', name:'OKR Personal', desc:'Objetivos ambiciosos y resultados clave medibles.',
-    fields:[{k:'objetivo',label:'Objetivo (cualitativo, inspirador)',type:'text'},
-            {k:'kr1',label:'Resultado clave 1 (medible)',type:'text'},
-            {k:'kr2',label:'Resultado clave 2 (medible)',type:'text'},
-            {k:'kr3',label:'Resultado clave 3 (medible)',type:'text'}]},
-
-  // ══ TENER — NEGOCIO (12 herramientas) ══
-  { id:'foda-personal', cat:'TENER', icon:'⚡', name:'FODA Personal', desc:'Fortalezas, Oportunidades, Debilidades, Amenazas.',
-    fields:[{k:'fortalezas',label:'Fortalezas',type:'textarea'},{k:'oportunidades',label:'Oportunidades',type:'textarea'},
-            {k:'debilidades',label:'Debilidades',type:'textarea'},{k:'amenazas',label:'Amenazas',type:'textarea'}]},
-  { id:'modelo-negocio', cat:'TENER', icon:'💼', name:'Modelo de Negocio Canvas', desc:'Estructura tu oferta de coaching.',
-    fields:[{k:'propuesta',label:'Propuesta de valor',type:'textarea'},
-            {k:'cliente_ideal',label:'Cliente ideal',type:'textarea'},
-            {k:'canales',label:'Canales de adquisición',type:'textarea'},
-            {k:'ingresos',label:'Fuentes de ingreso',type:'textarea'}]},
-  { id:'precio-valor', cat:'TENER', icon:'💰', name:'Estrategia de Precios', desc:'Define el precio correcto de tu servicio.',
-    fields:[{k:'servicio',label:'Servicio/programa a valorar',type:'text'},
-            {k:'transformacion',label:'Transformación real que entrega',type:'textarea'},
-            {k:'precio_actual',label:'Precio actual (si tiene)',type:'text'}]},
-  { id:'nicho-cliente-ideal', cat:'TENER', icon:'🎯', name:'Definición de Nicho', desc:'Claridad sobre a quién sirves mejor.',
-    fields:[{k:'quien',label:'¿A quién ayudas mejor?',type:'textarea'},
-            {k:'dolor',label:'¿Qué dolor específico resuelves?',type:'textarea'},
-            {k:'resultado',label:'¿Qué resultado tangible entregas?',type:'textarea'}]},
-  { id:'embudo-ventas', cat:'TENER', icon:'🎯', name:'Diseño de Embudo de Ventas', desc:'De prospecto a cliente, paso a paso.',
-    fields:[{k:'atraccion',label:'¿Cómo te descubren los prospectos?',type:'textarea'},
-            {k:'nutricion',label:'¿Cómo generas confianza antes de vender?',type:'textarea'},
-            {k:'conversion',label:'¿Cómo cierras la venta?',type:'textarea'}]},
-  { id:'proyeccion-financiera', cat:'TENER', icon:'📈', name:'Proyección Financiera Simple', desc:'Metas de ingresos realistas.',
-    fields:[{k:'meta_mensual',label:'Meta de ingreso mensual',type:'text'},
-            {k:'precio_promedio',label:'Precio promedio por cliente',type:'text'},
-            {k:'clientes_necesarios',label:'Clientes actuales',type:'text'}]},
-  { id:'propuesta-valor', cat:'TENER', icon:'📝', name:'Generador de Propuesta de Valor', desc:'El mensaje que vende sin sonar a venta.',
-    fields:[{k:'programa',label:'Nombre del programa',type:'text'},
-            {k:'para_quien',label:'Para quién es',type:'text'},
-            {k:'resultado',label:'Resultado principal que promete',type:'textarea'}]},
-  { id:'oferta-irresistible', cat:'TENER', icon:'🎁', name:'Diseño de Oferta Irresistible', desc:'Estructura de oferta que reduce fricción.',
-    fields:[{k:'core',label:'Oferta principal',type:'text'},
-            {k:'bonos',label:'Bonos o extras que sumarías',type:'textarea'},
-            {k:'garantia',label:'¿Qué garantía podrías ofrecer?',type:'text'}]},
-  { id:'plan-lanzamiento', cat:'TENER', icon:'🚀', name:'Plan de Lanzamiento', desc:'Lanza un programa nuevo con estructura.',
-    fields:[{k:'producto',label:'Qué vas a lanzar',type:'text'},
-            {k:'fecha',label:'Fecha objetivo',type:'text'},
-            {k:'canales',label:'Canales que usarás para anunciar',type:'textarea'}]},
-  { id:'analisis-competencia', cat:'TENER', icon:'🔍', name:'Análisis de Competencia', desc:'Entiende tu posición en el mercado.',
-    fields:[{k:'competidores',label:'2-3 coaches/competidores similares',type:'textarea'},
-            {k:'diferenciador',label:'¿Qué te hace diferente?',type:'textarea'}]},
-  { id:'sistema-referidos', cat:'TENER', icon:'🔗', name:'Sistema de Referidos', desc:'Convierte clientes en embajadores.',
-    fields:[{k:'momento',label:'¿En qué momento pedirías el referido?',type:'text'},
-            {k:'incentivo',label:'¿Qué incentivo podrías dar?',type:'text'}]},
-  { id:'escalera-valor', cat:'TENER', icon:'🪜', name:'Escalera de Valor', desc:'De producto gratis a premium — el camino del cliente.',
-    fields:[{k:'gratis',label:'Qué ofreces gratis',type:'text'},
-            {k:'entrada',label:'Producto de entrada (bajo precio)',type:'text'},
-            {k:'core',label:'Producto principal',type:'text'},
-            {k:'premium',label:'Producto premium/VIP',type:'text'}]},
-
-  // ══ DAR — IMPACTO (12 herramientas) ══
-  { id:'mapa-relaciones', cat:'DAR', icon:'🕸️', name:'Mapa de Relaciones', desc:'Visualiza tu ecosistema de vínculos e influencia.',
-    fields:[{k:'clave',label:'5 personas clave en tu red actual',type:'textarea'},
-            {k:'faltantes',label:'¿Qué relaciones te faltan cultivar?',type:'textarea'}]},
-  { id:'historia-marca-personal', cat:'DAR', icon:'📣', name:'Historia de Marca Personal', desc:'El relato que conecta y genera confianza.',
-    fields:[{k:'origen',label:'¿Por qué haces lo que haces?',type:'textarea'},
-            {k:'transformacion',label:'Tu propia transformación',type:'textarea'}]},
-  { id:'contenido-pilares', cat:'DAR', icon:'📱', name:'Pilares de Contenido', desc:'Los 3-5 temas que vas a comunicar siempre.',
-    fields:[{k:'pilares',label:'3-5 temas centrales de tu contenido',type:'textarea'},
-            {k:'audiencia',label:'¿A quién le hablas?',type:'text'}]},
-  { id:'calendario-contenido', cat:'DAR', icon:'📆', name:'Calendario de Contenido', desc:'Planifica un mes de publicaciones.',
-    fields:[{k:'frecuencia',label:'¿Cuántas veces por semana publicas?',type:'text'},
-            {k:'temas',label:'4 temas para este mes',type:'textarea'}]},
-  { id:'guion-webinar', cat:'DAR', icon:'🎤', name:'Guión de Webinar/Charla', desc:'Estructura de una presentación que convierte.',
-    fields:[{k:'tema',label:'Tema de la charla',type:'text'},
-            {k:'audiencia',label:'Para quién es',type:'text'},
-            {k:'cta',label:'Llamado a la acción final',type:'text'}]},
-  { id:'testimonios', cat:'DAR', icon:'⭐', name:'Recolector de Testimonios', desc:'Preguntas para sacar testimonios poderosos.',
-    fields:[{k:'cliente',label:'Nombre del cliente',type:'text'},
-            {k:'antes',label:'¿Cómo estaba antes de trabajar contigo?',type:'textarea'},
-            {k:'despues',label:'¿Qué cambió?',type:'textarea'}]},
-  { id:'alianzas-estrategicas', cat:'DAR', icon:'🤝', name:'Mapa de Alianzas', desc:'Identifica colaboraciones de alto impacto.',
-    fields:[{k:'potenciales',label:'Posibles aliados o colaboradores',type:'textarea'},
-            {k:'propuesta',label:'¿Qué les ofrecerías tú?',type:'textarea'}]},
-  { id:'evento-comunidad', cat:'DAR', icon:'🎪', name:'Diseño de Evento de Comunidad', desc:'Estructura un encuentro con impacto.',
-    fields:[{k:'proposito',label:'Propósito del evento',type:'text'},
-            {k:'formato',label:'Formato — virtual, presencial, tamaño',type:'text'}]},
-  { id:'impacto-social', cat:'DAR', icon:'🌍', name:'Mapa de Impacto Social', desc:'Conecta tu trabajo con una causa mayor.',
-    fields:[{k:'causa',label:'¿Qué causa te mueve más allá del negocio?',type:'textarea'},
-            {k:'conexion',label:'¿Cómo se conecta con tu trabajo de coaching?',type:'textarea'}]},
-  { id:'mentoria-inversa', cat:'DAR', icon:'🔄', name:'Mentoría Inversa', desc:'Qué puedes aprender de tus propios clientes.',
-    fields:[{k:'cliente',label:'Cliente del que has aprendido algo',type:'text'},
-            {k:'leccion',label:'¿Qué te enseñó?',type:'textarea'}]},
-  { id:'newsletter', cat:'DAR', icon:'✉️', name:'Estructura de Newsletter', desc:'El email recurrente que construye relación.',
-    fields:[{k:'frecuencia',label:'Frecuencia de envío',type:'text'},
-            {k:'valor',label:'Qué valor único entregas en cada envío',type:'textarea'}]},
-  { id:'voz-marca', cat:'DAR', icon:'🎙️', name:'Definición de Voz de Marca', desc:'Cómo suenas cuando comunicas.',
-    fields:[{k:'adjetivos',label:'3 adjetivos que describen tu forma de comunicar',type:'text'},
-            {k:'evitar',label:'Qué tono NUNCA usarías',type:'text'}]},
-
-  // ══ RECIBIR — ABUNDANCIA (12 herramientas) ══
-  { id:'mapa-escala', cat:'RECIBIR', icon:'📊', name:'Mapa de Escala del Negocio', desc:'De 1:1 a impacto masivo.',
-    fields:[{k:'actual',label:'Cómo trabajas hoy (1:1, grupal, etc.)',type:'text'},
-            {k:'siguiente',label:'Siguiente nivel de escala que imaginas',type:'textarea'}]},
-  { id:'delegacion', cat:'RECIBIR', icon:'🤲', name:'Plan de Delegación', desc:'Qué soltar para crecer.',
-    fields:[{k:'tareas',label:'Tareas que haces pero no deberías',type:'textarea'},
-            {k:'a_quien',label:'¿A quién podrías delegarlas?',type:'textarea'}]},
-  { id:'ingresos-pasivos', cat:'RECIBIR', icon:'💸', name:'Diseño de Ingresos Pasivos', desc:'Cursos, membresías, productos digitales.',
-    fields:[{k:'conocimiento',label:'Qué conocimiento tuyo se podría empaquetar',type:'textarea'},
-            {k:'formato',label:'Formato ideal — curso, libro, membresía',type:'text'}]},
-  { id:'equipo-ideal', cat:'RECIBIR', icon:'👥', name:'Diseño de Equipo Ideal', desc:'Quién te ayuda a sostener el crecimiento.',
-    fields:[{k:'roles',label:'Roles que necesitarías (asistente, marketing, etc.)',type:'textarea'}]},
-  { id:'balance-vida-negocio', cat:'RECIBIR', icon:'⚖️', name:'Balance Vida-Negocio', desc:'Sostenibilidad a largo plazo.',
-    fields:[{k:'senales',label:'Señales de que estás desbalanceado',type:'textarea'},
-            {k:'limites',label:'Límites que necesitas poner',type:'textarea'}]},
-  { id:'celebracion-logros', cat:'RECIBIR', icon:'🎉', name:'Ritual de Celebración', desc:'Reconoce el camino recorrido.',
-    fields:[{k:'logros',label:'3 logros de este trimestre que mereces celebrar',type:'textarea'}]},
-  { id:'gratitud-abundancia', cat:'RECIBIR', icon:'🙏', name:'Práctica de Gratitud y Abundancia', desc:'Cambia la relación con recibir.',
-    fields:[{k:'gratitud',label:'5 cosas por las que sientes gratitud hoy',type:'textarea'},
-            {k:'bloqueo',label:'¿Dónde sientes que te cuesta recibir?',type:'textarea'}]},
-  { id:'siguiente-nivel', cat:'RECIBIR', icon:'🪜', name:'Mapa al Siguiente Nivel', desc:'Qué se necesita para el próximo salto.',
-    fields:[{k:'nivel_actual',label:'Dónde estás hoy',type:'textarea'},
-            {k:'nivel_siguiente',label:'Dónde quieres estar en 12 meses',type:'textarea'}]},
-  { id:'legado-negocio', cat:'RECIBIR', icon:'🏛️', name:'Legado del Negocio', desc:'Qué construyes más allá de ti mismo.',
-    fields:[{k:'vision',label:'¿Cómo se ve tu negocio sin ti operándolo directamente?',type:'textarea'}]},
-  { id:'red-abundancia', cat:'RECIBIR', icon:'🌐', name:'Red de Abundancia', desc:'Comunidad de coaches que se apoyan.',
-    fields:[{k:'colegas',label:'Coaches con quienes podrías colaborar (no competir)',type:'textarea'}]},
-  { id:'certificaciones', cat:'RECIBIR', icon:'🎓', name:'Plan de Certificación/Autoridad', desc:'Cómo consolidar tu credibilidad.',
-    fields:[{k:'credenciales',label:'Certificaciones o credenciales actuales',type:'textarea'},
-            {k:'siguiente',label:'Próxima que te daría más autoridad',type:'text'}]},
-  { id:'vision-10-anos', cat:'RECIBIR', icon:'🔭', name:'Visión a 10 Años', desc:'El horizonte completo de tu trabajo.',
-    fields:[{k:'vision',label:'Describe tu vida y negocio en 10 años',type:'textarea'}]}
+  {
+    "id": "ser-rueda-de-la-identidad",
+    "name": "Rueda de la Identidad",
+    "cat": "SER",
+    "icon": "🧭",
+    "desc": "Explora cómo se percibe el cliente en las áreas clave de su identidad hoy.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "ser-detector-de-creencias-limitantes",
+    "name": "Detector de Creencias Limitantes",
+    "cat": "SER",
+    "icon": "🧭",
+    "desc": "Identifica las creencias que están frenando el avance del cliente.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "ser-mapa-de-valores-personales",
+    "name": "Mapa de Valores Personales",
+    "cat": "SER",
+    "icon": "🧭",
+    "desc": "Clarifica los valores que guían las decisiones del cliente.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "ser-dialogo-con-tu-yo-futuro",
+    "name": "Diálogo con tu Yo Futuro",
+    "cat": "SER",
+    "icon": "🧭",
+    "desc": "Conecta al cliente con la versión de sí mismo que quiere llegar a ser.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "ser-auditoria-de-autoestima",
+    "name": "Auditoría de Autoestima",
+    "cat": "SER",
+    "icon": "🧭",
+    "desc": "Revisa cómo se habla el cliente a sí mismo y dónde se sabotea.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "ser-brujula-de-proposito",
+    "name": "Brújula de Propósito",
+    "cat": "SER",
+    "icon": "🧭",
+    "desc": "Ayuda al cliente a nombrar su propósito con mayor claridad.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "ser-inventario-de-fortalezas",
+    "name": "Inventario de Fortalezas",
+    "cat": "SER",
+    "icon": "🧭",
+    "desc": "Enumera y prioriza las fortalezas naturales del cliente.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "ser-ritual-de-soltar-mascaras",
+    "name": "Ritual de Soltar Máscaras",
+    "cat": "SER",
+    "icon": "🧭",
+    "desc": "Facilita reconocer los roles que el cliente actúa por miedo o costumbre.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "ser-termometro-emocional",
+    "name": "Termómetro Emocional",
+    "cat": "SER",
+    "icon": "🧭",
+    "desc": "Registra el estado emocional actual del cliente y sus disparadores.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "ser-historia-de-vida-reescrita",
+    "name": "Historia de Vida Reescrita",
+    "cat": "SER",
+    "icon": "🧭",
+    "desc": "Ayuda al cliente a resignificar un episodio clave de su historia.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "ser-detector-de-sabotaje-interno",
+    "name": "Detector de Sabotaje Interno",
+    "cat": "SER",
+    "icon": "🧭",
+    "desc": "Detecta patrones repetitivos que el cliente usa para auto-limitarse.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "ser-vision-de-identidad-a-5-anos",
+    "name": "Visión de Identidad a 5 Años",
+    "cat": "SER",
+    "icon": "🧭",
+    "desc": "Construye una imagen concreta de quién quiere ser el cliente en 5 años.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "hacer-matriz-de-prioridades",
+    "name": "Matriz de Prioridades",
+    "cat": "HACER",
+    "icon": "⚙️",
+    "desc": "Ordena las tareas del cliente según impacto y urgencia real.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "hacer-diseno-de-habitos-clave",
+    "name": "Diseño de Hábitos Clave",
+    "cat": "HACER",
+    "icon": "⚙️",
+    "desc": "Define los hábitos mínimos que moverán la aguja para el cliente.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "hacer-plan-de-90-dias",
+    "name": "Plan de 90 Días",
+    "cat": "HACER",
+    "icon": "⚙️",
+    "desc": "Traza un plan de acción trimestral con hitos claros.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "hacer-rueda-de-productividad",
+    "name": "Rueda de Productividad",
+    "cat": "HACER",
+    "icon": "⚙️",
+    "desc": "Evalúa qué tan bien está usando el cliente su tiempo y energía.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "hacer-auditoria-de-tiempo-semanal",
+    "name": "Auditoría de Tiempo Semanal",
+    "cat": "HACER",
+    "icon": "⚙️",
+    "desc": "Revisa en qué se está yendo realmente el tiempo del cliente.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "hacer-sistema-de-rutinas-diarias",
+    "name": "Sistema de Rutinas Diarias",
+    "cat": "HACER",
+    "icon": "⚙️",
+    "desc": "Diseña una rutina diaria sostenible alineada a sus metas.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "hacer-mapa-de-procesos-del-cliente",
+    "name": "Mapa de Procesos del Cliente",
+    "cat": "HACER",
+    "icon": "⚙️",
+    "desc": "Documenta el proceso que sigue el cliente para lograr resultados.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "hacer-checklist-pre-sesion",
+    "name": "Checklist Pre-Sesión",
+    "cat": "HACER",
+    "icon": "⚙️",
+    "desc": "Prepara al cliente para aprovechar al máximo la próxima sesión.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "hacer-plan-de-accion-smart",
+    "name": "Plan de Acción SMART",
+    "cat": "HACER",
+    "icon": "⚙️",
+    "desc": "Convierte una meta difusa en objetivos específicos y medibles.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "hacer-rastreador-de-consistencia",
+    "name": "Rastreador de Consistencia",
+    "cat": "HACER",
+    "icon": "⚙️",
+    "desc": "Da seguimiento a qué tan consistente ha sido el cliente esta semana.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "hacer-protocolo-anti-procrastinacion",
+    "name": "Protocolo Anti-Procrastinación",
+    "cat": "HACER",
+    "icon": "⚙️",
+    "desc": "Identifica el patrón de procrastinación y diseña un contraataque.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "hacer-revision-semanal-de-metodo",
+    "name": "Revisión Semanal de Método",
+    "cat": "HACER",
+    "icon": "⚙️",
+    "desc": "Cierra la semana revisando qué funcionó y qué ajustar.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "tener-calculadora-de-precios-de-sesion",
+    "name": "Calculadora de Precios de Sesión",
+    "cat": "TENER",
+    "icon": "💼",
+    "desc": "Ayuda al cliente a definir un precio justo y sostenible.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "tener-proyeccion-de-ingresos-mensual",
+    "name": "Proyección de Ingresos Mensual",
+    "cat": "TENER",
+    "icon": "💼",
+    "desc": "Proyecta ingresos según clientes activos y precio promedio.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "tener-mapa-de-clientes-ideales",
+    "name": "Mapa de Clientes Ideales",
+    "cat": "TENER",
+    "icon": "💼",
+    "desc": "Define con precisión a quién sirve mejor el cliente.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "tener-embudo-de-captacion",
+    "name": "Embudo de Captación",
+    "cat": "TENER",
+    "icon": "💼",
+    "desc": "Diseña el camino que sigue un lead hasta convertirse en cliente.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "tener-auditoria-de-oferta",
+    "name": "Auditoría de Oferta",
+    "cat": "TENER",
+    "icon": "💼",
+    "desc": "Revisa si la oferta actual del cliente comunica valor real.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "tener-plan-de-escalamiento-de-precios",
+    "name": "Plan de Escalamiento de Precios",
+    "cat": "TENER",
+    "icon": "💼",
+    "desc": "Traza cómo subir precios sin perder clientes clave.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "tener-analisis-de-rentabilidad-por-programa",
+    "name": "Análisis de Rentabilidad por Programa",
+    "cat": "TENER",
+    "icon": "💼",
+    "desc": "Compara qué programas realmente generan ganancia.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "tener-estrategia-de-retencion-de-clientes",
+    "name": "Estrategia de Retención de Clientes",
+    "cat": "TENER",
+    "icon": "💼",
+    "desc": "Diseña acciones para que los clientes se queden más tiempo.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "tener-plan-de-lanzamiento-de-programa",
+    "name": "Plan de Lanzamiento de Programa",
+    "cat": "TENER",
+    "icon": "💼",
+    "desc": "Organiza el lanzamiento de un nuevo programa paso a paso.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "tener-diagnostico-de-posicionamiento",
+    "name": "Diagnóstico de Posicionamiento",
+    "cat": "TENER",
+    "icon": "💼",
+    "desc": "Evalúa cómo se percibe el cliente frente a su competencia.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "tener-matriz-de-fuentes-de-ingreso",
+    "name": "Matriz de Fuentes de Ingreso",
+    "cat": "TENER",
+    "icon": "💼",
+    "desc": "Mapea todas las formas en que el cliente genera ingresos hoy.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "tener-plan-financiero-anual",
+    "name": "Plan Financiero Anual",
+    "cat": "TENER",
+    "icon": "💼",
+    "desc": "Define metas financieras concretas para el año.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "dar-mapa-de-impacto-social",
+    "name": "Mapa de Impacto Social",
+    "cat": "DAR",
+    "icon": "🌍",
+    "desc": "Visualiza a quién y cómo está impactando el trabajo del cliente.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "dar-diseno-de-legado-profesional",
+    "name": "Diseño de Legado Profesional",
+    "cat": "DAR",
+    "icon": "🌍",
+    "desc": "Ayuda al cliente a definir qué legado quiere dejar.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "dar-auditoria-de-contribucion",
+    "name": "Auditoría de Contribución",
+    "cat": "DAR",
+    "icon": "🌍",
+    "desc": "Revisa si el cliente está dando desde la abundancia o el agotamiento.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "dar-plan-de-mentoria-a-otros-coaches",
+    "name": "Plan de Mentoría a Otros Coaches",
+    "cat": "DAR",
+    "icon": "🌍",
+    "desc": "Diseña cómo el cliente puede formar a otros en su método.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "dar-estrategia-de-contenido-con-proposito",
+    "name": "Estrategia de Contenido con Propósito",
+    "cat": "DAR",
+    "icon": "🌍",
+    "desc": "Alinea el contenido que comparte el cliente con su misión.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "dar-medicion-de-transformacion-en-clientes",
+    "name": "Medición de Transformación en Clientes",
+    "cat": "DAR",
+    "icon": "🌍",
+    "desc": "Documenta los cambios reales logrados en sus clientes.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "dar-diseno-de-programa-pro-bono",
+    "name": "Diseño de Programa Pro Bono",
+    "cat": "DAR",
+    "icon": "🌍",
+    "desc": "Estructura una forma sostenible de dar valor gratuito.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "dar-rueda-de-impacto-comunitario",
+    "name": "Rueda de Impacto Comunitario",
+    "cat": "DAR",
+    "icon": "🌍",
+    "desc": "Evalúa la huella del cliente en su comunidad inmediata.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "dar-testimonios-historias-de-cambio",
+    "name": "Testimonios & Historias de Cambio",
+    "cat": "DAR",
+    "icon": "🌍",
+    "desc": "Organiza las historias de transformación más poderosas.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "dar-plan-de-alianzas-estrategicas",
+    "name": "Plan de Alianzas Estratégicas",
+    "cat": "DAR",
+    "icon": "🌍",
+    "desc": "Identifica con quién puede aliarse para multiplicar impacto.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "dar-auditoria-de-huella-etica",
+    "name": "Auditoría de Huella Ética",
+    "cat": "DAR",
+    "icon": "🌍",
+    "desc": "Revisa la coherencia entre lo que predica y lo que practica.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "dar-vision-de-impacto-a-10-anos",
+    "name": "Visión de Impacto a 10 Años",
+    "cat": "DAR",
+    "icon": "🌍",
+    "desc": "Construye una visión de largo plazo del impacto deseado.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "recibir-auditoria-de-creencias-sobre-el-dinero",
+    "name": "Auditoría de Creencias sobre el Dinero",
+    "cat": "RECIBIR",
+    "icon": "💫",
+    "desc": "Explora las creencias del cliente en torno a recibir dinero.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "recibir-rueda-de-abundancia",
+    "name": "Rueda de Abundancia",
+    "cat": "RECIBIR",
+    "icon": "💫",
+    "desc": "Evalúa qué tan abundante se siente el cliente en distintas áreas.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "recibir-practica-de-gratitud-semanal",
+    "name": "Práctica de Gratitud Semanal",
+    "cat": "RECIBIR",
+    "icon": "💫",
+    "desc": "Registra y refuerza momentos de gratitud durante la semana.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "recibir-detector-de-bloqueos-para-recibir",
+    "name": "Detector de Bloqueos para Recibir",
+    "cat": "RECIBIR",
+    "icon": "💫",
+    "desc": "Identifica qué le impide al cliente aceptar apoyo o reconocimiento.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "recibir-plan-de-autocuidado-del-coach",
+    "name": "Plan de Autocuidado del Coach",
+    "cat": "RECIBIR",
+    "icon": "💫",
+    "desc": "Diseña un plan realista de autocuidado para el propio coach.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "recibir-balance-vida-trabajo",
+    "name": "Balance Vida-Trabajo",
+    "cat": "RECIBIR",
+    "icon": "💫",
+    "desc": "Revisa el equilibrio actual entre trabajo y vida personal.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "recibir-celebracion-de-logros",
+    "name": "Celebración de Logros",
+    "cat": "RECIBIR",
+    "icon": "💫",
+    "desc": "Documenta y celebra los avances logrados hasta ahora.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "recibir-mapa-de-apoyo-y-comunidad",
+    "name": "Mapa de Apoyo y Comunidad",
+    "cat": "RECIBIR",
+    "icon": "💫",
+    "desc": "Identifica la red de apoyo real con la que cuenta el cliente.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "recibir-auditoria-de-descanso",
+    "name": "Auditoría de Descanso",
+    "cat": "RECIBIR",
+    "icon": "💫",
+    "desc": "Revisa la calidad y cantidad de descanso del cliente.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "recibir-ritual-de-cierre-de-ciclo",
+    "name": "Ritual de Cierre de Ciclo",
+    "cat": "RECIBIR",
+    "icon": "💫",
+    "desc": "Facilita cerrar simbólicamente una etapa antes de abrir otra.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "recibir-plan-de-reinversion-en-ti-mismo",
+    "name": "Plan de Reinversión en ti Mismo",
+    "cat": "RECIBIR",
+    "icon": "💫",
+    "desc": "Diseña cómo reinvertir ganancias en el propio crecimiento.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  },
+  {
+    "id": "recibir-vision-de-abundancia-integral",
+    "name": "Visión de Abundancia Integral",
+    "cat": "RECIBIR",
+    "icon": "💫",
+    "desc": "Construye una visión de abundancia más allá de lo económico.",
+    "fields": [
+      {
+        "k": "contexto",
+        "label": "Contexto del cliente (situación actual)",
+        "type": "textarea"
+      },
+      {
+        "k": "nivel",
+        "label": "Nivel actual en esta área (1 = muy bajo, 10 = excelente)",
+        "type": "range"
+      }
+    ]
+  }
 ];
 
 module.exports = { TOOLS };

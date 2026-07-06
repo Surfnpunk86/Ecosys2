@@ -1,48 +1,53 @@
 const fs   = require('fs');
 const path = require('path');
 
-const DB_FILE = path.join(__dirname, '..', 'data', 'db.json');
+// Archivo donde se guardan los datos (usuarios, clientes, sesiones, programas...)
+// NOTA: en Render, el disco es efímero por defecto — si tu servicio
+// se reinicia o redeploya, este archivo se borra y pierdes los datos.
+// Si necesitas persistencia real, considera:
+//   - Agregar un "Persistent Disk" en Render y apuntar DB_FILE ahí, o
+//   - Migrar a una base de datos real (Postgres, etc.) más adelante.
+const DB_FILE = process.env.DB_FILE || path.join(__dirname, 'data.json');
 
-const defaultDB = {
-  users:    [],   // { id, name, email, passwordHash, plan, createdAt }
-  clients:  [],   // { id, userId, name, email, phone, program, stage, notes, createdAt }
-  sessions: [],   // { id, userId, clientId, date, time, type, goal, status, aiSummary }
-  programs: [],   // { id, userId, name, price, ... }
-  tasks:    [],   // { id, userId, text, done, due }
-  toolRuns: []    // { id, userId, clientId, toolId, inputs, aiOutput, createdAt } — historial de herramientas usadas
+// Límites por plan — ajusta estos valores a lo que realmente ofrezcas
+const PLAN_LIMITS = {
+  starter: { clients: 3,        programs: false, toolsUnlocked: 10, aiRequestsPerDay: 10  },
+  pro:     { clients: Infinity, programs: true,  toolsUnlocked: 60, aiRequestsPerDay: 50  },
+  elite:   { clients: Infinity, programs: true,  toolsUnlocked: 60, aiRequestsPerDay: 200 }
 };
+
+function defaultDB() {
+  return { users: [], clients: [], sessions: [], programs: [], toolRuns: [] };
+}
 
 function loadDB() {
   try {
-    const dir = path.dirname(DB_FILE);
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    if (!fs.existsSync(DB_FILE)) { saveDB(defaultDB); return structuredClone(defaultDB); }
-    const raw = JSON.parse(fs.readFileSync(DB_FILE, 'utf8'));
-    // Asegurar que todas las colecciones existan (migración suave)
-    return { ...structuredClone(defaultDB), ...raw };
-  } catch (e) {
-    console.error('DB load error', e);
-    return structuredClone(defaultDB);
+    if (!fs.existsSync(DB_FILE)) {
+      const initial = defaultDB();
+      fs.writeFileSync(DB_FILE, JSON.stringify(initial, null, 2));
+      return initial;
+    }
+    const raw = fs.readFileSync(DB_FILE, 'utf8');
+    const parsed = JSON.parse(raw);
+    // Asegura que siempre existan todas las colecciones, aunque el archivo esté incompleto
+    const defaults = defaultDB();
+    for (const key of Object.keys(defaults)) {
+      if (!Array.isArray(parsed[key])) parsed[key] = [];
+    }
+    return parsed;
+  } catch (err) {
+    console.error('Error leyendo la base de datos, usando estado por defecto:', err.message);
+    return defaultDB();
   }
 }
 
-function saveDB(data) {
-  try {
-    const dir = path.dirname(DB_FILE);
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2));
-  } catch (e) { console.error('DB write error', e); }
+function saveDB(db) {
+  fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2));
 }
 
-function nextId(arr) {
-  return arr.length === 0 ? 1 : Math.max(...arr.map(x => x.id || 0)) + 1;
+function nextId(list) {
+  if (!list || list.length === 0) return 1;
+  return Math.max(...list.map(item => item.id || 0)) + 1;
 }
-
-// ── LÍMITES POR PLAN ──
-const PLAN_LIMITS = {
-  starter: { maxClients: 3,       maxToolsPerMonth: 20,       toolsUnlocked: 10, programs: false, payments: false, whiteLabel: false },
-  pro:     { maxClients: 999999,  maxToolsPerMonth: 999999,   toolsUnlocked: 60, programs: true,  payments: true,  whiteLabel: false },
-  elite:   { maxClients: 999999,  maxToolsPerMonth: 999999,   toolsUnlocked: 60, programs: true,  payments: true,  whiteLabel: true  }
-};
 
 module.exports = { loadDB, saveDB, nextId, PLAN_LIMITS };
