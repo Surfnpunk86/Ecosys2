@@ -266,4 +266,14 @@ tr:hover td { background:var(--cream); }
   .hero-strip { flex-direction:column; }
   .form-row { grid-template-columns:1fr; }
   .plan-select-row { grid-template-columns:1fr; }
+
+  /* ── Navbar: evita que los botones se salgan de la pantalla ── */
+  .navbar { padding:0 4%; gap:8px; }
+  .nav-links { display:none; }
+  .nav-cta { gap:6px; flex-shrink:0; }
+  .btn-ghost { padding:8px 12px; font-size:12px; }
+  .btn-primary { padding:8px 14px; font-size:12px; }
 }
+
+/* Red de seguridad: nada debe generar scroll horizontal en todo el sitio */
+html, body { max-width:100%; overflow-x:hidden; }
