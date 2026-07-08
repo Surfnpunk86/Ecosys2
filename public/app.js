@@ -67,7 +67,7 @@ async function doRegister() {
       return;
     }
 
-    saveSession(data);
+    saveAuthSession(data);
     closeAuth();
     enterApp();
     btn.textContent = 'Crear cuenta →'; btn.disabled = false;
@@ -108,7 +108,7 @@ async function doLogin() {
       return;
     }
 
-    saveSession(data);
+    saveAuthSession(data);
     closeAuth();
     enterApp();
     btn.textContent = 'Entrar al sistema →'; btn.disabled = false;
@@ -120,7 +120,7 @@ async function doLogin() {
   }
 }
 
-function saveSession(data) {
+function saveAuthSession(data) {
   AUTH_TOKEN  = data.token;
   CURRENT_USER = data.user;
   PLAN_LIMITS  = data.limits;
@@ -683,7 +683,7 @@ async function renderPlanScreen(c) {
 }
 async function upgradePlan(plan) {
   const data = await api('/api/auth/upgrade', { method:'POST', body: JSON.stringify({ plan }) });
-  saveSession(data);
+  saveAuthSession(data);
   showToast(`Plan actualizado a ${PLAN_NAMES[plan]}`);
   document.getElementById('tools-badge').textContent = PLAN_LIMITS?.toolsUnlocked === 60 ? '60' : `${PLAN_LIMITS?.toolsUnlocked||10}/60`;
   document.getElementById('lock-programas').textContent = PLAN_LIMITS?.programs ? '' : '🔒';
