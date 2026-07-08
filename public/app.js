@@ -47,19 +47,34 @@ async function doRegister() {
   const btn = document.getElementById('register-btn');
   btn.textContent = 'Creando cuenta...'; btn.disabled = true;
 
+  // Aviso si el servidor tarda (Render "duerme" el servicio tras inactividad)
+  const wakeupTimer = setTimeout(() => {
+    btn.textContent = 'Despertando el servidor... espera unos segundos';
+  }, 4000);
+
   try {
     const res  = await fetch('/api/auth/register', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, password: pass, plan: SELECTED_PLAN })
     });
+    clearTimeout(wakeupTimer);
     const data = await res.json();
     if (!res.ok) { showFormError('register-error', data.error || 'Error al crear la cuenta'); btn.textContent = 'Crear cuenta →'; btn.disabled = false; return; }
+
+    if (!data || !data.user || !data.token) {
+      showFormError('register-error', 'El servidor no devolvió una sesión válida. Intenta de nuevo.');
+      btn.textContent = 'Crear cuenta →'; btn.disabled = false;
+      return;
+    }
 
     saveSession(data);
     closeAuth();
     enterApp();
+    btn.textContent = 'Crear cuenta →'; btn.disabled = false;
   } catch (err) {
-    showFormError('register-error', 'Error de conexión. Intenta de nuevo.');
+    clearTimeout(wakeupTimer);
+    console.error('Error en doRegister:', err);
+    showFormError('register-error', 'Error de conexión: ' + err.message + '. Intenta de nuevo.');
     btn.textContent = 'Crear cuenta →'; btn.disabled = false;
   }
 }
@@ -74,19 +89,33 @@ async function doLogin() {
   const btn = document.getElementById('login-btn');
   btn.textContent = 'Ingresando...'; btn.disabled = true;
 
+  const wakeupTimer = setTimeout(() => {
+    btn.textContent = 'Despertando el servidor... espera unos segundos';
+  }, 4000);
+
   try {
     const res  = await fetch('/api/auth/login', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password: pass })
     });
+    clearTimeout(wakeupTimer);
     const data = await res.json();
     if (!res.ok) { showFormError('login-error', data.error || 'Credenciales incorrectas'); btn.textContent = 'Entrar al sistema →'; btn.disabled = false; return; }
+
+    if (!data || !data.user || !data.token) {
+      showFormError('login-error', 'El servidor no devolvió una sesión válida. Intenta de nuevo.');
+      btn.textContent = 'Entrar al sistema →'; btn.disabled = false;
+      return;
+    }
 
     saveSession(data);
     closeAuth();
     enterApp();
+    btn.textContent = 'Entrar al sistema →'; btn.disabled = false;
   } catch (err) {
-    showFormError('login-error', 'Error de conexión. Intenta de nuevo.');
+    clearTimeout(wakeupTimer);
+    console.error('Error en doLogin:', err);
+    showFormError('login-error', 'Error de conexión: ' + err.message + '. Intenta de nuevo.');
     btn.textContent = 'Entrar al sistema →'; btn.disabled = false;
   }
 }
@@ -108,6 +137,14 @@ function doLogout() {
 }
 
 async function enterApp() {
+  if (!CURRENT_USER || !CURRENT_USER.name) {
+    console.error('enterApp() llamado sin CURRENT_USER válido:', CURRENT_USER);
+    showFormError('login-error', 'No se pudo iniciar sesión correctamente. Intenta de nuevo.');
+    showFormError('register-error', 'No se pudo crear la sesión correctamente. Intenta de nuevo.');
+    doLogout();
+    return;
+  }
+
   document.getElementById('landing-page').style.display = 'none';
   document.getElementById('app-shell').style.display    = 'block';
 
@@ -343,8 +380,8 @@ async function loadDailyInsight() {
 async function renderClientes(c) {
   const clients = await api('/api/data/clients');
   CLIENTS_CACHE = clients;
-  const limitMsg = PLAN_LIMITS.maxClients !== null && PLAN_LIMITS.maxClients < 999999
-    ? `<div class="upgrade-banner"><div class="upgrade-text">Plan Starter: <b>${clients.length}/${PLAN_LIMITS.maxClients}</b> clientes usados.</div>
+  const limitMsg = PLAN_LIMITS?.clients !== undefined && PLAN_LIMITS.clients < 999999
+    ? `<div class="upgrade-banner"><div class="upgrade-text">Plan Starter: <b>${clients.length}/${PLAN_LIMITS.clients}</b> clientes usados.</div>
         <button class="top-btn primary" onclick="goTo('plan', document.querySelectorAll('.nav-item')[6])">Actualizar plan →</button></div>` : '';
 
   c.innerHTML = `
