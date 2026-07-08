@@ -555,16 +555,10 @@ async function deleteProgram(id) {
 async function renderHerramientas(c) {
   const tools = await api('/api/data/tools');
   TOOLS_CACHE = tools;
-  const cats = ['SER','HACER','TENER','DAR','RECIBIR'];
   c.innerHTML = `
     <div class="section-header"><div><div class="section-title2">Herramientas de Coaching</div>
       <div class="section-sub2">${tools.filter(t=>!t.locked).length} de 60 herramientas disponibles en tu plan</div></div></div>
-    <div class="tabs">
-      <div class="tab active" onclick="switchToolTab(this,'todas')">Todas</div>
-      ${cats.map(cat => `<div class="tab" onclick="switchToolTab(this,'${cat}')">${cat}</div>`).join('')}
-    </div>
-    <div id="tools-tab-todas" class="tab-content active">${renderToolsGrid(tools)}</div>
-    ${cats.map(cat => `<div id="tools-tab-${cat}" class="tab-content">${renderToolsGrid(tools.filter(t=>t.cat===cat))}</div>`).join('')}
+    ${renderToolsGrid(tools)}
   `;
 }
 function renderToolsGrid(tools) {
@@ -577,12 +571,6 @@ function renderToolsGrid(tools) {
       <div class="tool-name">${t.name}</div>
       <div class="tool-desc">${t.desc}</div>
     </div>`).join('')}</div>`;
-}
-function switchToolTab(el, tab) {
-  document.querySelectorAll('.tabs .tab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  document.getElementById('tools-tab-'+tab).classList.add('active');
 }
 
 async function openTool(toolId) {
